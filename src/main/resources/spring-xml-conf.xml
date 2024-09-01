@@ -1,0 +1,109 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util.xsd
+           ">
+
+<!-- creating bean of address and employee class all with prop injection -->
+    <bean id="address" class="org.example.xmlconf.Address">
+        <property name="houseNo" value="122"/>
+        <property name="streetName" value="Takrohi"/>
+        <property name="city">
+            <value>"Lucknow"</value>
+        </property>
+    </bean>
+
+    <bean id="emp" class="org.example.xmlconf.Employee">
+        <property name="empId" value="3244"/>
+        <property name="empName" value="Geekmozo"/>
+        <property name="address" ref="address"/>
+    </bean>
+
+<!-- creating bean of Address and Employee using Constructor Injection   -->
+    <bean name="address1" class="org.example.xmlconf.Address">
+        <constructor-arg value="122"/>
+        <constructor-arg>
+            <value>"Park Road"</value>
+        </constructor-arg>
+        <constructor-arg value="Kanpur"/>
+    </bean>
+
+    <bean name="emp1" class="org.example.xmlconf.Employee">
+        <constructor-arg value="3100" index="0"/>
+        <constructor-arg value="Sergis" index="1"/>
+        <constructor-arg ref="address1" index="2"/>
+    </bean>
+
+<!--    p and c schema based property and setter injections -->
+    <bean name="address2" class="org.example.xmlconf.Address" p:houseNo="1010" p:streetName="Shiv vihar" p:city="Allahabad" />
+
+
+
+    <bean name="emp2" class="org.example.xmlconf.Employee"
+          p:empId="2198"
+          p:empName="Manik"
+          p:address-ref="address2"/>
+
+    <bean name="emp3" class="org.example.xmlconf.Employee"
+          c:_0="7767"
+          c:_1="Tony"
+          c:_2-ref="address2"
+    />
+
+<!--    Collections Injection -->
+    <bean id="cInject" class="org.example.xmlconf.CollectionsInjector">
+        <property name="list">
+            <list>
+                <value>Hello</value>
+                <value>Hola</value>
+                <value>Namaste</value>
+            </list>
+        </property>
+        <property name="set">
+            <set>
+                <value>Hello</value>
+                <value>Hola</value>
+                <value>Hello</value>
+            </set>
+        </property>
+        <property name="map">
+            <map>
+                <entry key="TajMahal" value="Agra" />
+                <entry key="India Gate" value="Delhi" />
+                <entry key="Sangam" value="Varanasi" />
+            </map>
+        </property>
+    </bean>
+
+<!--    standalone collections-->
+    <util:list list-class="java.util.LinkedList" id="linkedList">
+        <value>Sunday</value>
+        <value>Tuesday</value>
+        <value>Thursday</value>
+    </util:list>
+    <util:map map-class="java.util.HashMap" id="hashMap">
+        <entry key="text" value="Import"/>
+        <entry key="json" value="Export"/>
+    </util:map>
+
+<!--    using standalone collections -->
+    <bean id="cInject1" class="org.example.xmlconf.CollectionsInjector" p:list-ref="linkedList" p:map-ref="hashMap" />
+
+    <!-- Load properties XML file -->
+    <bean id="propertyConfigurer"
+          class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+        <property name="location" value="classpath:application.properties"/>
+    </bean>
+
+    <!-- Define your bean -->
+    <bean id="myBean" class="org.example.xmlconf.PropertiesInjector">
+        <constructor-arg index="0" value="${app.name}"/>
+        <constructor-arg index="1" value="${app.version}"/>
+    </bean>
+</beans>

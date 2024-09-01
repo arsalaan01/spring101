@@ -1,0 +1,28 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/util
+           http://www.springframework.org/schema/util/spring-util.xsd
+           ">
+
+    <!-- importing beans defined in spring-xml-conf file -->
+    <import resource="classpath:spring-xml-conf.xml"/>
+
+<!--    <bean id="testAutowire" class="org.example.autowirewithxml.TestAutowire"-->
+<!--    autowire="byName"/>-->
+
+<!--    <bean id="testAutowire" class="org.example.autowirewithxml.TestAutowire"-->
+<!--          autowire="byType"/>-->
+
+
+    <bean id="testAutowire" class="org.example.autowirewithxml.TestAutowire"
+          autowire="constructor">
+        <property name="tid" value="1231"/>
+    </bean>
+
+</beans>
